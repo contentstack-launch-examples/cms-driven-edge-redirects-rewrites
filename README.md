@@ -252,6 +252,3 @@ To add or update redirects:
 - **Verify content type UID**: Default is `redirect` - check `REDIRECT_CT` env var if different
 
 ---
-
-Built with ❤️ for Contentstack Launch
-
