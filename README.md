@@ -238,7 +238,7 @@ To add or update redirects:
 - [Next.js on Contentstack Launch](https://www.contentstack.com/docs/developers/launch/nextjs-on-launch)
 - [Edge Functions](https://www.contentstack.com/docs/developers/launch/edge-functions)
 - [Content Modeling](https://www.contentstack.com/docs/developers/create-content-types) 
--[Automation](https://www.contentstack.com/docs/developers/automation-hub-guides/create-an-automation)
+- [Automation](https://www.contentstack.com/docs/developers/automation-hub-guides/create-an-automation)
 
 ## 🐛 Troubleshooting
 
