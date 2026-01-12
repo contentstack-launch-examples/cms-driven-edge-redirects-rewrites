@@ -120,11 +120,11 @@ Create a content type named **"redirect"** with the following fields:
 
 Create a content type named **"rewrite"** with the following fields:
 
-| Field UID     | Display Name | Type | Required | Description                             |
-| ------------- | ------------ | ---- | -------- | --------------------------------------- |
-| `title`       | Title        | Text | Yes      | Name of the rewrite rule                |
-| `source`      | Source       | Text | Yes      | Source path (e.g., `/api/proxy`)        |
-| `destination` | Destination  | Text | Yes      | Destination URL to proxy to             |
+| Field UID     | Display Name | Type | Required | Description                      |
+| ------------- | ------------ | ---- | -------- | -------------------------------- |
+| `title`       | Title        | Text | Yes      | Name of the rewrite rule         |
+| `source`      | Source       | Text | Yes      | Source path (e.g., `/api/proxy`) |
+| `destination` | Destination  | Text | Yes      | Destination URL to proxy to      |
 
 ### Creating Redirect Entries
 
@@ -141,12 +141,26 @@ The redirect will be active after deployment!
 
 ### Example Redirects
 
-| Source          | Destination     | Status Code | Description              |
-| --------------- | --------------- | ----------- | ------------------------ |
-| `/old-blog`     | `/blog`         | 301         | Permanent redirect       |
-| `/temp-promo`   | `/sale`         | 302         | Temporary redirect       |
-| `/legacy/*`     | `/new/*`        | 301         | Wildcard redirect        |
-| `/external`     | `https://x.com` | 302         | External redirect        |
+| Source        | Destination     | Status Code | Description        |
+| ------------- | --------------- | ----------- | ------------------ |
+| `/old-blog`   | `/blog`         | 301         | Permanent redirect |
+| `/temp-promo` | `/sale`         | 302         | Temporary redirect |
+| `/legacy/*`   | `/new/*`        | 301         | Wildcard redirect  |
+| `/external`   | `https://x.com` | 302         | External redirect  |
+
+### Automation Setup (Auto-Redeploy)
+
+Set up Contentstack Automation to automatically redeploy your Launch project when redirect entries are published or updated:
+
+1. **Go to Contentstack** → Your Stack → Automation Hub
+2. **Create new automation** with:
+   - **Trigger**: Entry Published / Entry Updated
+   - **Content Type**: Select `redirect` (and `rewrite` if using)
+3. **Add Action**: Trigger Contentstack Launch Deployment
+   - Select your Launch project
+4. **Save and Enable** the automation
+
+Now when you publish or update any redirect entry, the project automatically redeploys with the latest rules!
 
 ## 🔄 How Edge Redirects Work
 
@@ -158,14 +172,6 @@ The redirect will be active after deployment!
 4. **Returns 301 response** with `Location: /contact` header
 5. **Browser redirects** to `/contact`
 6. **Next.js serves** the `/contact` page
-
-### Pattern Matching
-
-The edge function supports:
-
-- **Exact match**: `/about` matches only `/about`
-- **Prefix match**: `/about` also matches `/about/team`
-- **Wildcard**: `/blog/*` matches `/blog/post-1`, `/blog/post-2`, etc.
 
 ## 🚢 Deployment to Contentstack Launch
 
@@ -185,7 +191,7 @@ Add your Contentstack environment variables in Launch:
 - `CONTENTSTACK_API_KEY`
 - `CONTENTSTACK_DELIVERY_TOKEN`
 - `CONTENTSTACK_ENVIRONMENT`
-- `CONTENTSTACK_APP_HOST` (for non-prod regions)
+- `CONTENTSTACK_APP_HOST`
 
 ### 3. Edge Function
 
@@ -220,18 +226,18 @@ To add or update redirects:
 
 ## 🛠️ Scripts
 
-| Script            | Description                                    |
-| ----------------- | ---------------------------------------------- |
-| `npm run dev`     | Start dev server (runs prebuild automatically) |
-| `npm run build`   | Build for production                           |
-| `npm run prebuild`| Fetch rules and generate edge function         |
-| `npm run build:rules` | Manually regenerate edge function          |
+| Script                | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| `npm run dev`         | Start dev server (runs prebuild automatically) |
+| `npm run build`       | Build for production                           |
+| `npm run prebuild`    | Fetch rules and generate edge function         |
+| `npm run build:rules` | Manually regenerate edge function              |
 
 ## 📚 Contentstack Documentation
 
 - [Next.js on Contentstack Launch](https://www.contentstack.com/docs/developers/launch/nextjs-on-launch)
 - [Edge Functions](https://www.contentstack.com/docs/developers/launch/edge-functions)
-- [Content Modeling](https://www.contentstack.com/docs/developers/create-content-types)
+- [Content Modeling](https://www.contentstack.com/docs/developers/create-content-types) -[Automation](https://www.contentstack.com/docs/developers/automation-hub-guides/create-an-automation)
 
 ## 🐛 Troubleshooting
 
@@ -250,5 +256,3 @@ To add or update redirects:
 
 - **Check environment variables**: Ensure all Contentstack credentials are set in Launch
 - **Verify content type UID**: Default is `redirect` - check `REDIRECT_CT` env var if different
-
----
